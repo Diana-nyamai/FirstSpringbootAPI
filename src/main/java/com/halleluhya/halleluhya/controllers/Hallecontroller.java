@@ -21,7 +21,7 @@ public class Hallecontroller {
     }
 
     @GetMapping("/Halleluhya/{id}")
-    public Halleluhya HalleluhyaDetail(@PathVariable int id, String name, String occupation){
+    public Halleluhya HalleluhyaDetail(@PathVariable int id ){
         return new Halleluhya(id, "diana", "integration engineer");
     }
 
