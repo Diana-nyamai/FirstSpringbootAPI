@@ -21,12 +21,14 @@ public class Hallecontroller {
     }
 
     @GetMapping("Halleluhya")
-    public ResponseEntity<List<Halleluhya>> getHalleluhyas(){
-      List<Halleluhya> halleluhyas = new ArrayList<>();
-      halleluhyas.add(new Halleluhya(1,"ndinda", "software developer"));
-      halleluhyas.add(new Halleluhya(2,"diana", "web developer"));
-      halleluhyas.add(new Halleluhya(3,"fiona", "advocate"));
-      return ResponseEntity.ok(halleluhyas);
+//    ResponseEntity<List<Halleluhya>>
+    public ResponseEntity<List<HalleluhyaDto>> getHalleluhyas(){
+        return new ResponseEntity<>( halleluhyaService.getAllHalleluhya(), HttpStatus.OK);
+//      List<Halleluhya> halleluhyas = new ArrayList<>();
+//      halleluhyas.add(new Halleluhya(1,"ndinda", "software developer"));
+//      halleluhyas.add(new Halleluhya(2,"diana", "web developer"));
+//      halleluhyas.add(new Halleluhya(3,"fiona", "advocate"));
+//      return ResponseEntity.ok(halleluhyas);
     }
 
     @GetMapping("/Halleluhya/{id}")
