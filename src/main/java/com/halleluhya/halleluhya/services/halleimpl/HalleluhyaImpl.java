@@ -1,6 +1,7 @@
 package com.halleluhya.halleluhya.services.halleimpl;
 
 import com.halleluhya.halleluhya.dto.HalleluhyaDto;
+import com.halleluhya.halleluhya.exceptions.HalleluhyaNotFoundException;
 import com.halleluhya.halleluhya.models.Halleluhya;
 import com.halleluhya.halleluhya.repository.HalleluhyaRepo;
 import com.halleluhya.halleluhya.services.HalleluhyaService;
@@ -35,8 +36,15 @@ public class HalleluhyaImpl implements HalleluhyaService {
 
     @Override
     public List<HalleluhyaDto> getAllHalleluhya() {
+//        Halleluhya halleluhya3 = HalleluhyaRepo.findById(333333).orElseThrow(() -> new HalleluhyaNotFoundException("Halleluhya not found by id"));
         List<Halleluhya> halleluhya = halleluhyaRepo.findAll();
         return halleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
+    }
+
+    @Override
+    public HalleluhyaDto getHalleluhyaid(int id) {
+        Halleluhya halleluhya = halleluhyaRepo.findById(id).orElseThrow(() -> new HalleluhyaNotFoundException("Halleluhya not found by id"));
+        return maptoDto(halleluhya);
     }
 
     public HalleluhyaDto maptoDto(Halleluhya halleluhya){
@@ -53,4 +61,22 @@ public class HalleluhyaImpl implements HalleluhyaService {
         halleluhya.setOccupation(halleluhyaDto.getOccupation());
         return halleluhya;
     }
+    @Override
+    public HalleluhyaDto updatehalleluhya(HalleluhyaDto halleluhyaDto, int id) {
+        Halleluhya halleluhya = halleluhyaRepo.findById(id).orElseThrow(() -> new HalleluhyaNotFoundException("update not successful"));
+        halleluhya.setName(halleluhyaDto.getName());
+        halleluhya.setOccupation(halleluhyaDto.getOccupation());
+
+        Halleluhya updatehalleluhya = halleluhyaRepo.save(halleluhya);
+
+        return maptoDto(updatehalleluhya);
+    }
+
+    @Override
+    public void deletehalleid(int id) {
+       Halleluhya halleluhya = halleluhyaRepo.findById(id).orElseThrow(() -> new HalleluhyaNotFoundException("halle could nor delete"));
+       halleluhyaRepo.delete(halleluhya);
+    }
+
+
 }
