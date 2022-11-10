@@ -23,7 +23,8 @@ public class Hallecontroller {
     @GetMapping("Halleluhya")
 //    ResponseEntity<List<Halleluhya>>
     public ResponseEntity<List<HalleluhyaDto>> getHalleluhyas(){
-        return new ResponseEntity<>( halleluhyaService.getAllHalleluhya(), HttpStatus.OK);
+//        return new ResponseEntity<>( halleluhyaService.getAllHalleluhya(), HttpStatus.OK);
+        return ResponseEntity.ok(halleluhyaService.getAllHalleluhya());
 //      List<Halleluhya> halleluhyas = new ArrayList<>();
 //      halleluhyas.add(new Halleluhya(1,"ndinda", "software developer"));
 //      halleluhyas.add(new Halleluhya(2,"diana", "web developer"));
@@ -32,8 +33,10 @@ public class Hallecontroller {
     }
 
     @GetMapping("/Halleluhya/{id}")
-    public Halleluhya HalleluhyaDetail(@PathVariable int id ){
-        return new Halleluhya(id, "diana", "integration engineer");
+// Halleluhya
+    public ResponseEntity<HalleluhyaDto> HalleluhyaDetail(@PathVariable int id ){
+//        return new Halleluhya(id, "diana", "integration engineer");
+        return ResponseEntity.ok(halleluhyaService.getHalleluhyaid(id));
     }
 
     @PostMapping("/Halleluhya/create")
@@ -47,14 +50,19 @@ public class Hallecontroller {
     }
 
     @PutMapping("Halleluhya/{id}/update")
-    public ResponseEntity<Halleluhya> updateHalleluhya(@RequestBody Halleluhya halleluhya, @PathVariable("id") int halleid){
-        System.out.println(halleluhya.getName());
-        System.out.println(halleluhya.getOccupation());
-        return ResponseEntity.ok(halleluhya);
+//initially was halleluhya
+    public ResponseEntity<HalleluhyaDto> updateHalleluhya(@RequestBody HalleluhyaDto halleluhyaDto, @PathVariable("id") int halleid){
+        HalleluhyaDto response = halleluhyaService.updatehalleluhya(halleluhyaDto, halleid);
+        return ResponseEntity.ok(response);
+//        System.out.println(halleluhya.getName());
+//        System.out.println(halleluhya.getOccupation());
+//        return ResponseEntity.ok(halleluhya);
     }
     @DeleteMapping("Halleluhya/{id}/delete")
     public ResponseEntity<String> deletehalleluhya(@PathVariable("id") int haleid){
-        System.out.println(haleid);
-        return ResponseEntity.ok("halleluhya deleted succesfully");
+//        System.out.println(haleid);
+//        return ResponseEntity.ok("halleluhya deleted succesfully");
+        halleluhyaService.deletehalleid(haleid);
+        return new ResponseEntity<>("halle has been deleted", HttpStatus.OK);
     }
 }
