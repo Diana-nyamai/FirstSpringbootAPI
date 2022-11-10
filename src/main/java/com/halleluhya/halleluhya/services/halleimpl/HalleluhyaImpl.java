@@ -6,6 +6,9 @@ import com.halleluhya.halleluhya.repository.HalleluhyaRepo;
 import com.halleluhya.halleluhya.services.HalleluhyaService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class HalleluhyaImpl implements HalleluhyaService {
     private HalleluhyaRepo halleluhyaRepo;
@@ -28,5 +31,26 @@ public class HalleluhyaImpl implements HalleluhyaService {
         halleresponse.setOccupation(newhalle.getOccupation());
         return halleresponse;
 
+    }
+
+    @Override
+    public List<HalleluhyaDto> getAllHalleluhya() {
+        List<Halleluhya> halleluhya = halleluhyaRepo.findAll();
+        return halleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
+    }
+
+    public HalleluhyaDto maptoDto(Halleluhya halleluhya){
+       HalleluhyaDto halleluhyaDto = new HalleluhyaDto();
+       halleluhyaDto.setId(halleluhya.getId());
+       halleluhyaDto.setName(halleluhya.getName());
+       halleluhyaDto.setOccupation(halleluhya.getOccupation());
+       return halleluhyaDto;
+    }
+
+    public Halleluhya maptoEntity(HalleluhyaDto halleluhyaDto){
+        Halleluhya halleluhya = new Halleluhya();
+        halleluhya.setName(halleluhyaDto.getName());
+        halleluhya.setOccupation(halleluhyaDto.getOccupation());
+        return halleluhya;
     }
 }
