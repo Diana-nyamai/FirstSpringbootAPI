@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +14,12 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String lastname;
+    private String title;
+    private String content;
+    private int stars;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hale_id")
+    private Halleluhya halleluhya;
 
 }
