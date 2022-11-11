@@ -1,10 +1,14 @@
 package com.halleluhya.halleluhya.services.halleimpl;
 
 import com.halleluhya.halleluhya.dto.HalleluhyaDto;
+import com.halleluhya.halleluhya.dto.Halleluhyaresponse;
 import com.halleluhya.halleluhya.exceptions.HalleluhyaNotFoundException;
 import com.halleluhya.halleluhya.models.Halleluhya;
 import com.halleluhya.halleluhya.repository.HalleluhyaRepo;
 import com.halleluhya.halleluhya.services.HalleluhyaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,10 +39,23 @@ public class HalleluhyaImpl implements HalleluhyaService {
     }
 
     @Override
-    public List<HalleluhyaDto> getAllHalleluhya() {
-//        Halleluhya halleluhya3 = HalleluhyaRepo.findById(333333).orElseThrow(() -> new HalleluhyaNotFoundException("Halleluhya not found by id"));
-        List<Halleluhya> halleluhya = halleluhyaRepo.findAll();
-        return halleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
+//    public List<HalleluhyaDto> getAllHalleluhya(int pageno, int pagesize) {
+    public Halleluhyaresponse getAllHalleluhya(int pageno, int pagesize) {
+          Pageable pagable= PageRequest.of(pageno, pagesize);
+        Page<Halleluhya> halleluhya = halleluhyaRepo.findAll(pagable);
+          List<Halleluhya> listofhalleluhya = halleluhya.getContent();
+        List<HalleluhyaDto> content = listofhalleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
+        Halleluhyaresponse halleluhyaresponse = new Halleluhyaresponse();
+        halleluhyaresponse.setContent(content);
+        halleluhyaresponse.setPageno(halleluhya.getNumber());
+        halleluhyaresponse.setPageno(halleluhya.getSize());
+        halleluhyaresponse.setTotalelements(halleluhya.getTotalElements());
+        halleluhyaresponse.setTotalpages(halleluhya.getTotalPages());
+        halleluhyaresponse.setLast(halleluhya.isLast());
+
+        return halleluhyaresponse;
+//                List<Halleluhya> halleluhya = halleluhyaRepo.findAll();
+//        return halleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
     }
 
     @Override
