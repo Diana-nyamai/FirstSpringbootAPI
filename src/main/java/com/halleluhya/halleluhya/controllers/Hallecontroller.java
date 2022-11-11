@@ -1,6 +1,7 @@
 package com.halleluhya.halleluhya.controllers;
 
 import com.halleluhya.halleluhya.dto.HalleluhyaDto;
+import com.halleluhya.halleluhya.dto.Halleluhyaresponse;
 import com.halleluhya.halleluhya.models.Halleluhya;
 import com.halleluhya.halleluhya.services.HalleluhyaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ public class Hallecontroller {
 
     @GetMapping("Halleluhya")
 //    ResponseEntity<List<Halleluhya>>
-    public ResponseEntity<List<HalleluhyaDto>> getHalleluhyas(){
+//    public ResponseEntity<List<HalleluhyaDto>> getHalleluhyas(
+    public ResponseEntity<Halleluhyaresponse> getHalleluhyas(
+            @RequestParam(value = "pageno", defaultValue = "0", required = false) int pageno,
+            @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
+    ){
 //        return new ResponseEntity<>( halleluhyaService.getAllHalleluhya(), HttpStatus.OK);
-        return ResponseEntity.ok(halleluhyaService.getAllHalleluhya());
+        return ResponseEntity.ok(halleluhyaService.getAllHalleluhya(pageno, pagesize));
 //      List<Halleluhya> halleluhyas = new ArrayList<>();
 //      halleluhyas.add(new Halleluhya(1,"ndinda", "software developer"));
 //      halleluhyas.add(new Halleluhya(2,"diana", "web developer"));
