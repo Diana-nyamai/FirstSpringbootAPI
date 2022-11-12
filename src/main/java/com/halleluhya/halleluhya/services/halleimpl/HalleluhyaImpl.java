@@ -44,6 +44,7 @@ public class HalleluhyaImpl implements HalleluhyaService {
           Pageable pagable= PageRequest.of(pageno, pagesize);
         Page<Halleluhya> halleluhya = halleluhyaRepo.findAll(pagable);
           List<Halleluhya> listofhalleluhya = halleluhya.getContent();
+//          return listofhalleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
         List<HalleluhyaDto> content = listofhalleluhya.stream().map(h ->maptoDto(h)).collect(Collectors.toList());
         Halleluhyaresponse halleluhyaresponse = new Halleluhyaresponse();
         halleluhyaresponse.setContent(content);
